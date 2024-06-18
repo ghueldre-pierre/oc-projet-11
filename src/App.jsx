@@ -1,11 +1,10 @@
 import { Outlet } from "react-router-dom";
+import { SiteHeader } from "./components/SiteHeader";
 
 function App() {
   return (
     <>
-      <header>
-        <h1>ArgentBank</h1>
-      </header>
+      <SiteHeader />
       <Outlet />
     </>
   );
