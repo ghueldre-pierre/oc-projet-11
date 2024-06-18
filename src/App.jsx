@@ -1,5 +1,14 @@
+import { Outlet } from "react-router-dom";
+
 function App() {
-  return <h1>Hello world !</h1>;
+  return (
+    <>
+      <header>
+        <h1>ArgentBank</h1>
+      </header>
+      <Outlet />
+    </>
+  );
 }
 
 export { App };
