@@ -10,7 +10,6 @@ const tryLoginUser = createAsyncThunk("auth/tryLogin", async (credentials, thunk
         const { token } = await doFetch(apiInfo.endpoints.user.login, credentials);
         return { token, persist };
     } catch (error) {
-        console.error("tryLoginUser", error);
         throw error;
     }
 });
@@ -18,7 +17,6 @@ const tryLoginUser = createAsyncThunk("auth/tryLogin", async (credentials, thunk
 const TOKEN_STORAGE_KEY = "ARGENT_BANK_TOKEN";
 
 function getInitialState() {
-    console.log("Initial state", );
     return {
         token: sessionStorage.getItem(TOKEN_STORAGE_KEY) || localStorage.getItem(TOKEN_STORAGE_KEY) || ""
     };
@@ -33,7 +31,6 @@ const authSlice = createSlice({
         .addCase(tryLoginUser.fulfilled, (state, action) => {
             const { token, persist } = action.payload;
             const storage = persist ? localStorage : sessionStorage;
-            console.log(action.payload);
             storage.setItem(TOKEN_STORAGE_KEY, token);
             state.token = token;
         })

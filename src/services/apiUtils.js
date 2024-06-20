@@ -13,7 +13,6 @@ async function doFetch(endpoint, data = null) {
     let request = {};
     // create request body if data is present
     if (Boolean(data)) {
-      console.log("has data", data);
       const { dataFormat, dataModel } = getEndpointDataModel(endpoint);
       const dataValidationResult = checkAllRequiredDataPresent(data, dataModel);
       if (dataValidationResult.error) {
@@ -35,18 +34,16 @@ async function doFetch(endpoint, data = null) {
     request.headers = Boolean(headers) ? headers : {};
 
     if (isProtected) {
-      console.log("isProtected");
       const token = getToken();
-      if (!token)
+      if (!token) {
         throw new MissingTokenError(
           "Tried to fetch a protected endpoint without access token"
         );
-      console.log(request);
+      }
       request.headers["Authorization"] = `Bearer ${token}`;
-      console.log(request);
     }
     // debug
-    console.info("Fetch request : ", request);
+    // console.info("Fetch request : ", request);
 
     const serverResponse = await fetch(url, request);
     const response = await endpoint.onResponse(serverResponse);

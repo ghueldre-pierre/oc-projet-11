@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getToken, tryLoginUser } from "../auth/authSlice";
+import { tryLoginUser } from "../auth/authSlice";
 import { doFetch } from "../../services/apiUtils";
 import { apiInfo } from "../../services/apiInfo";
 
@@ -11,12 +11,9 @@ const tryConnectUser = createAsyncThunk("user/tryConnectUser", async (credential
     try {
         if(credentials) {
             await thunkApi.dispatch(tryLoginUser(credentials)).unwrap();
-            console.log("GOT TOKEN");
         }
-        console.log("has token", Boolean(getToken()));
         await thunkApi.dispatch(tryGetUserInfo()).unwrap();
     } catch (error) {
-        console.error("tryConnectUser", error);
         throw error;
     }
 });
@@ -26,7 +23,6 @@ const tryChangeUserName = createAsyncThunk("user/tryChangeUserName", async (user
         const { userName: newUserName } = await doFetch(apiInfo.endpoints.user.profile.update, { userName });
         return newUserName;
     } catch (error) {
-        console.error("tryChangeUserName", error);
         throw error;
     }
 });

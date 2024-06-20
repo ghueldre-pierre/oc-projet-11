@@ -1,31 +1,47 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getUserInfo, getIsConnected, logoutUser } from "../../features/user/userSlice";
-import { useEffect } from "react";
+import {
+  getUserInfo,
+  getIsConnected,
+  logoutUser,
+} from "../../features/user/userSlice";
 
 function SiteHeader() {
-  const dispatch = useDispatch();
   const isConnected = useSelector(getIsConnected);
   const userInfo = useSelector(getUserInfo);
 
-  useEffect(() => {
-    console.log("isConnected", isConnected);
-  })
+  const dispatch = useDispatch();
 
   return (
     <header>
-      <h1>ArgentBank</h1>
-      <nav>
-        <Link to="/">Home</Link>
-        {isConnected
-          ? (
+      <nav className="main-nav">
+        <Link className="main-nav-logo" to="/">
+          <img
+            className="main-nav-logo-image"
+            src="/img/argentBankLogo.png"
+            alt="Argent Bank Logo"
+          />
+          <h1 className="sr-only">Argent Bank</h1>
+        </Link>
+        <div>
+          {isConnected ? (
             <>
-              <span>{userInfo.userName}</span>
-              <button onClick={() => dispatch(logoutUser())}>Logout</button>
+              <Link className="main-nav-item" to="/profile">
+                <i className="fa fa-user-circle"></i>
+                &nbsp;{userInfo.userName}
+              </Link>
+              <button className="main-nav-item" onClick={() => dispatch(logoutUser())}>
+                <i className="fa fa-sign-out"></i>
+                &nbsp;Sign Out
+              </button>
             </>
-          )
-          : <Link to="/login">Login</Link>
-        }
+          ) : (
+            <Link className="main-nav-item" to="/login">
+              <i className="fa fa-user-circle"></i>
+              &nbsp;Sign In
+            </Link>
+          )}
+        </div>
       </nav>
     </header>
   );
