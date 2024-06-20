@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import { SiteHeader } from "./components/SiteHeader";
+import { SiteHeader } from "../components/SiteHeader";
 
 function App() {
   return (
