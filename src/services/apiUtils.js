@@ -13,6 +13,7 @@ async function doFetch(endpoint, data = null) {
     let request = {};
     // create request body if data is present
     if (Boolean(data)) {
+      console.log("has data", data);
       const { dataFormat, dataModel } = getEndpointDataModel(endpoint);
       const dataValidationResult = checkAllRequiredDataPresent(data, dataModel);
       if (dataValidationResult.error) {

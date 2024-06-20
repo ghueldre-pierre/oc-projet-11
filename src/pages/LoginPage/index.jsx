@@ -11,7 +11,7 @@ async function loginAction({ request }) {
         tryConnectUser({ email, password, persist })
     );
     console.log("response", response);
-    if(response?.error) {
+    if(response.error) {
         return response.error.message;
     }
     return redirect("/profile");

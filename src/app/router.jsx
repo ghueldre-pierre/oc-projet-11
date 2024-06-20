@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { App } from "./App";
 import { HomePage } from "../pages/HomePage";
 import { loginAction, LoginPage } from "../pages/LoginPage";
-import { ProfilePage } from "../pages/ProfilePage";
+import { profileAction, ProfilePage } from "../pages/ProfilePage";
 import { AccessRestriction } from "../components/AccessRestriction";
 
 const AppRouter = createBrowserRouter([
@@ -31,7 +31,8 @@ const AppRouter = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ProfilePage />
+            element: <ProfilePage />,
+            action: profileAction
           }
         ]
       }

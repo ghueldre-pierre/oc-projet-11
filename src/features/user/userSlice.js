@@ -21,21 +21,38 @@ const tryConnectUser = createAsyncThunk("user/tryConnectUser", async (credential
     }
 });
 
-function getInitialState() {
-    return {
-        info: null,
-        isConnected: false
-    };
+const tryChangeUserName = createAsyncThunk("user/tryChangeUserName", async (userName) => {
+    try {
+        const { userName: newUserName } = await doFetch(apiInfo.endpoints.user.profile.update, { userName });
+        return newUserName;
+    } catch (error) {
+        console.error("tryChangeUserName", error);
+        throw error;
+    }
+});
+
+const defaultState = {
+    info: {
+        userName: "",
+        firstName: "",
+        lastName: ""
+    },
+    isConnected: false
+};
+
+function resetState(state) {
+    state.info.userName = "";
+    state.info.firstName = "";
+    state.info.lastName = "";
+    state.isConnected = false;
 }
 
 const userSlice = createSlice({
     name: "user",
-    initialState: getInitialState(),
+    initialState: defaultState,
     reducers: {
         logoutUser: (state, action) => {
-            state.info = null;
-            state.isConnected = false;
-            console.log("USER logout", state);
+            resetState(state);
         }
     },
     selectors: {
@@ -44,12 +61,21 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(tryGetUserInfo.fulfilled, (state, action) => {
-            state.info = action.payload.userInfo;
+            const { userName, firstName, lastName } = action.payload.userInfo;
+            state.info.userName = userName;
+            state.info.firstName = firstName;
+            state.info.lastName = lastName;
             state.isConnected = true;
+        });
+        builder.addCase(tryGetUserInfo.rejected, (state, action) => {
+            resetState(state);
+        })
+        builder.addCase(tryChangeUserName.fulfilled, (state, action) => {
+            state.info.userName = action.payload;
         })
     }
 });
 
-export { userSlice, tryConnectUser };
+export { userSlice, tryConnectUser, tryChangeUserName };
 export const { logoutUser } = userSlice.actions;
 export const { getIsConnected, getUserInfo } = userSlice.selectors;
