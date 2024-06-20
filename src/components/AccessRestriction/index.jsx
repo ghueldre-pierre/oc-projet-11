@@ -6,7 +6,7 @@ function AccessRestriction({ userConnected = true, redirectTo = "/" }) {
     const isConnected = useSelector(getIsConnected);
 
     if(isConnected !== userConnected) {
-        return <Navigate to={redirectTo} />;
+        return <Navigate to={redirectTo} replace />;
     }
 
     return <Outlet />

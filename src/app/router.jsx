@@ -3,6 +3,7 @@ import { App } from "./App";
 import { HomePage } from "../pages/HomePage";
 import { loginAction, LoginPage } from "../pages/LoginPage";
 import { profileAction, ProfilePage } from "../pages/ProfilePage";
+import { NotFoundPage } from "../pages/NotFounPage";
 import { AccessRestriction } from "../components/AccessRestriction";
 
 const AppRouter = createBrowserRouter([
@@ -35,6 +36,10 @@ const AppRouter = createBrowserRouter([
             action: profileAction
           }
         ]
+      },
+      {
+        path: "*",
+        element: <NotFoundPage />
       }
     ]
   }
