@@ -1,6 +1,7 @@
 import { Form, redirect, useActionData } from "react-router-dom";
 import { AppStore } from "../../app/store";
 import { tryConnectUser } from "../../features/user/userSlice";
+import { useNavigation } from "react-router-dom";
 
 async function loginAction({ request }) {
   const formData = await request.formData();
@@ -11,6 +12,8 @@ async function loginAction({ request }) {
   const response = await AppStore.dispatch(
     tryConnectUser({ email, password, persist })
   );
+  
+  console.log("response", response);
 
   if (response.error) {
     return response.error.message;
@@ -20,6 +23,7 @@ async function loginAction({ request }) {
 }
 
 function LoginPage() {
+  const navigation = useNavigation();
   const errorMessage = useActionData();
 
   return (
@@ -36,7 +40,7 @@ function LoginPage() {
         <Form method="post" replace>
           <div className="input-wrapper">
             <label htmlFor="email">Email</label>
-            <input type="text" name="email" id="email" required autoComplete="on" />
+            <input type="text" name="email" id="email" required autoComplete="off" />
           </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { getUserInfo, tryChangeUserName } from "../../features/user/userSlice";
-import { Form } from "react-router-dom";
+import { Form, useNavigation } from "react-router-dom";
 import { useEffect } from "react";
 import { useState } from "react";
 import { AppStore } from "../../app/store";
@@ -16,9 +16,22 @@ async function profileAction({ request }) {
 }
 
 function ProfilePage() {
+  const navigation = useNavigation();
   const userInfo = useSelector(getUserInfo);
   const [showForm, setShowForm] = useState(false);
+  const [updateState, setUpdateState] = useState("idle");
   const [formUserInfo, setFormUserInfo] = useState(userInfo);
+
+  if(navigation.state !== updateState) {
+    if(navigation.state === "submitting") {
+      setUpdateState(navigation.state);
+    }
+    if(navigation.state === "idle") {
+      // update happened
+      setShowForm(false);
+      setUpdateState(navigation.state)
+    }
+  }
 
   useEffect(() => {
     setInputAsUserInfo();
@@ -55,6 +68,7 @@ function ProfilePage() {
                 id="userName"
                 value={formUserInfo.userName}
                 onChange={(e) => onChangeHandle(e)}
+                disabled={navigation.state === "submitting"}
               />
             </div>
             <div className="input-wrapper">
@@ -80,7 +94,13 @@ function ProfilePage() {
               />
             </div>
             <div className="user-info-form__footer">
-              <button type="submit" className="sign-in-button">Save</button>
+              <button 
+                type="submit" 
+                className="sign-in-button"
+                disabled={navigation.state === "submitting"}
+              >
+                Save
+              </button>
               <button
                 type="button"
                 className="sign-in-button"
@@ -88,6 +108,7 @@ function ProfilePage() {
                   setInputAsUserInfo();
                   setShowForm(false);
                 }}
+                disabled={navigation.state === "submitting"}
               >
                 Cancel
               </button>

@@ -3,7 +3,7 @@ import { App } from "./App";
 import { HomePage } from "../pages/HomePage";
 import { loginAction, LoginPage } from "../pages/LoginPage";
 import { profileAction, ProfilePage } from "../pages/ProfilePage";
-import { NotFoundPage } from "../pages/NotFounPage";
+import { NotFoundPage } from "../pages/NotFoundPage";
 import { AccessRestriction } from "../components/AccessRestriction";
 
 const AppRouter = createBrowserRouter([
